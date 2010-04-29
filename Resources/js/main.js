@@ -5,11 +5,14 @@ KitchenSink.init = function()
 {
 	this.resourceDir = Ti.fs.getResourcesDirectory();
 
-	this.topicMenu = $('#api_list');
+	this.topicMenu = $('#topic_menu');
 	this.topicContentArea = $('#api_content');
 
 	// Load all the topics
 	KitchenSink.loadTopics();
+
+	// Create topic menu accordion
+	this.topicMenu.accordion();
 }
 
 KitchenSink.loadTopics = function()
@@ -32,23 +35,25 @@ KitchenSink.loadTopics = function()
 
 KitchenSink.addTopicMenu = function(topic)
 {
-	// Create topic menu item
-	var menuItem = $('<div class="topic_list">' + topic.name + '</div>');
-	menuItem.click(function()
+	// Create the topic header
+	var header = $('<h3>' + topic.name + '</h3>');
+	header.click(function()
 	{
 		KitchenSink.currentTopic.hide();
 		topic.show();
 		KitchenSink.currentTopic = topic;
 	});
 
-	// Add submenu items
+	// Add topic sections
+	var sectionList = $('<div>');
 	topic.sections.forEach(function(section)
 	{
 		var subItem = $('<div class="section_item">' + section + '</div>');
-		menuItem.append(subItem);
+		sectionList.append(subItem);
 	});
 
-	this.topicMenu.append(menuItem);
+	this.topicMenu.append(header);
+	this.topicMenu.append(sectionList);
 }
 
 KitchenSink.Topic = function(file)
@@ -59,7 +64,13 @@ KitchenSink.Topic = function(file)
 	this.contentDiv.hide();
 
 	this.name = $('h1', this.contentDiv).first().text();
-	this.sections = [];
+
+	var sections = [];
+	$('h2', this.contentDiv).each(function()
+	{
+		sections.push($(this).text());
+	});
+	this.sections = sections;
 }
 
 KitchenSink.Topic.prototype.show = function()
@@ -80,7 +91,7 @@ $(document).ready(function()
 	{
 		var height = window.innerHeight - 50;
 		document.getElementById('api_content').style.height = height;
-		document.getElementById('api_list').style.height = height;
+		document.getElementById('topic_menu').style.height = height;
 	}
 	resizeContentDiv();
 	Titanium.UI.currentWindow.addEventListener(Titanium.RESIZED, resizeContentDiv);
