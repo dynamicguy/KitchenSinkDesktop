@@ -49,6 +49,10 @@ KitchenSink.addTopicMenu = function(topic)
 	topic.sections.forEach(function(section)
 	{
 		var subItem = $('<div class="section_item">' + section + '</div>');
+		subItem.click(function()
+		{
+			document.getElementById(section.toLowerCase().replace(/ /g,"_")).scrollIntoView(true);
+		});
 		sectionList.append(subItem);
 	});
 

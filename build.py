@@ -15,7 +15,7 @@ def markdown_topics():
 	for topic in os.listdir('Topics'):
 		content = open(os.path.join('Topics', topic), 'r')
 		output = open('%s/%s.html' % (TOPICS_OUTDIR, topic.split('.')[0]), 'w')
-		html = markdown(content.read(), ['codehilite'])
+		html = markdown(content.read(), ['codehilite', 'headerid'])
 		output.write(html)
 
 if __name__ == '__main__':
