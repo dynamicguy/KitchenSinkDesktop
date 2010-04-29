@@ -7,6 +7,7 @@ is an object shared between all JavaScript contexts. Each frame, including
 the top-level frame of each window, has its own JavaScript context. This
 makes sharing data between frames a snap:
 
+	:::javascript
 	Titanium.DataDump = {}
 	Titanium.DataDump.value = "foo";
 	alert(Titanium.DataDump.value);
@@ -19,12 +20,14 @@ Almost all instantiated objects in Titanium are accessor-objects. This means
 that properties can be accessed and modified in two styles. For example, take
 this use use of *API.Application.getName()*:
 
+	:::javascript
 	alert(Titanium.API.getApplication().getName());
 	alert(Titanium.API.getApplication().name);
 	alert(Titanium.API.application.name);
 
 Likewise a similar method can be used for modifiers:
 
+	:::javascript
 	Titanium.UI.currentWindow.setTitle("Title1");
 	Titanium.UI.currentWindow.title = "Title2";
 
@@ -32,6 +35,7 @@ Likewise a similar method can be used for modifiers:
 
 Titanium provides an API for logging.  There are two supported methods.
 
+	:::javascript
 	Titanium.API.critical("critical message");
 	Titanium.API.debug("debug message");
 	Titanium.API.error("error message");
@@ -57,6 +61,7 @@ The Web Inspector only logs WARN messages or higher.
 If you want to control the level of logging that is displayed via stdout,
 you can set the logging level.
 
+	:::javascript
 	alert("The current log level is: " + Titanium.API.getLogLevel());
 	Titanium.API.setLogLevel(Titanium.API.FATAL);
 	alert("The current log level is: " + Titanium.API.getLogLevel());
@@ -68,6 +73,7 @@ Titanium allows you to access environment variables via the
 by this function is live representation of all environment variables,
 which allows you to query and update the environment easily.
 
+	:::javascript
 	var env = Titanium.API.getEnvironment();
 	alert(env['PATH']);
 	
@@ -83,6 +89,7 @@ may need to inercept all events after they've bubbled up to the
 top-level object. This is possible by installing an event handler
 on the Titanium object.
 
+	:::javascript
 	Titanium.API.addEventListener("CustomEvent", function(event)
 	{
 		alert("Top-level got " + event.type + " event!");

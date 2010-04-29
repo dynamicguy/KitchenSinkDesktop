@@ -23,8 +23,8 @@
 	<id>initial</id>
 	<title>Desktop Kitchen Sink</title>
 	<url>app://index.html</url>
-	<width>1000</width>
-	<height>700</height>
+	<width>1100</width>
+	<height>800</height>
 	<fullscreen>false</fullscreen>
 	<resizable>true</resizable>
 	<chrome scrollbars="true">true</chrome>
