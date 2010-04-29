@@ -6,7 +6,7 @@ KitchenSink.init = function()
 	this.resourceDir = Ti.fs.getResourcesDirectory();
 
 	this.topicMenu = $('#topic_menu');
-	this.topicContentArea = $('#api_content');
+	this.contentArea = $('#content');
 
 	// Load all the topics
 	KitchenSink.loadTopics();
@@ -24,7 +24,7 @@ KitchenSink.loadTopics = function()
 	topicDir.getDirectoryListing().forEach(function(topicFile)
 	{
 		var topic = new KitchenSink.Topic(topicFile);
-		sink.topicContentArea.append(topic.contentDiv);
+		sink.contentArea.append(topic.contentDiv);
 		sink.addTopicMenu(topic);
 		sink.topics.push(topic);
 	});
@@ -36,7 +36,7 @@ KitchenSink.loadTopics = function()
 KitchenSink.addTopicMenu = function(topic)
 {
 	// Create the topic header
-	var header = $('<h3>' + topic.name + '</h3>');
+	var header = $('<h3><a href="#">' + topic.name + '</a></h3>');
 	header.click(function()
 	{
 		KitchenSink.currentTopic.hide();
@@ -59,7 +59,7 @@ KitchenSink.addTopicMenu = function(topic)
 KitchenSink.Topic = function(file)
 {
 	// Load topic content text
-	this.contentDiv = $('<div>');
+	this.contentDiv = $('<div class="topic_content">');
 	this.contentDiv.html(file.read().toString());
 	this.contentDiv.hide();
 
@@ -86,13 +86,4 @@ KitchenSink.Topic.prototype.hide = function()
 $(document).ready(function()
 {
 	KitchenSink.init();
-
-	function resizeContentDiv()
-	{
-		var height = window.innerHeight - 50;
-		document.getElementById('api_content').style.height = height;
-		document.getElementById('topic_menu').style.height = height;
-	}
-	resizeContentDiv();
-	Titanium.UI.currentWindow.addEventListener(Titanium.RESIZED, resizeContentDiv);
 });
