@@ -1,0 +1,95 @@
+<h1>Basics</h1>
+<h2 id="the_titanium_object">The Titanium Object</h2>
+<p>The Titanium object is top-level namespace for the entire Titanium API. It
+is an object shared between all JavaScript contexts. Each frame, including
+the top-level frame of each window, has its own JavaScript context. This
+makes sharing data between frames a snap:</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">DataDump</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">DataDump</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s2">&quot;foo&quot;</span><span class="p">;</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">DataDump</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Note: Since it's simple to write to the Titanium object, you should be careful
+not to overwrite Titanium namespaces and methods, unless you know what you're
+doing.</p>
+<p>Almost all instantiated objects in Titanium are accessor-objects. This means
+that properties can be accessed and modified in two styles. For example, take
+this use use of <em>API.Application.getName()</em>:</p>
+<div class="codehilite"><pre><span class="nx">alert</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">getApplication</span><span class="p">().</span><span class="nx">getName</span><span class="p">());</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">getApplication</span><span class="p">().</span><span class="nx">name</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Likewise a similar method can be used for modifiers:</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setTitle</span><span class="p">(</span><span class="s2">&quot;Title1&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;Title2&quot;</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="logging">Logging</h2>
+<p>Titanium provides an API for logging.  There are two supported methods.</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">critical</span><span class="p">(</span><span class="s2">&quot;critical message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;debug message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;error message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">fatal</span><span class="p">(</span><span class="s2">&quot;fatal message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">notice</span><span class="p">(</span><span class="s2">&quot;notice message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">trace</span><span class="p">(</span><span class="s2">&quot;trace message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s2">&quot;warning message&quot;</span><span class="p">);</span>
+
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">CRITICAL</span><span class="p">,</span><span class="s2">&quot;critical message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">,</span><span class="s2">&quot;debug message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">ERROR</span><span class="p">,</span><span class="s2">&quot;error message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">FATAL</span><span class="p">,</span><span class="s2">&quot;fatal message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">INFO</span><span class="p">,</span><span class="s2">&quot;info message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">NOTICE</span><span class="p">,</span><span class="s2">&quot;notice message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">TRACE</span><span class="p">,</span><span class="s2">&quot;trace message&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">WARN</span><span class="p">,</span><span class="s2">&quot;warn message&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Note: You can view the log output via the web inspector (or
+a terminal window if you launched your app from the command line).
+The Web Inspector only logs WARN messages or higher.</p>
+<p>If you want to control the level of logging that is displayed via stdout,
+you can set the logging level.</p>
+<div class="codehilite"><pre><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;The current log level is: &quot;</span> <span class="o">+</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">getLogLevel</span><span class="p">());</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">setLogLevel</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">FATAL</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;The current log level is: &quot;</span> <span class="o">+</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">getLogLevel</span><span class="p">());</span>
+</pre></div>
+
+
+<h2 id="environment_variables">Environment Variables</h2>
+<p>Titanium allows you to access environment variables via the
+<em>Titanium.API.getEnvironment</em> function. The object returned
+by this function is live representation of all environment variables,
+which allows you to query and update the environment easily.</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">env</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">getEnvironment</span><span class="p">();</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">env</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]);</span>
+
+<span class="c1">// Modify the PATH environment variable.</span>
+<span class="kd">var</span> <span class="nx">sep</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span> <span class="o">?</span> <span class="s2">&quot;;&quot;</span> <span class="o">:</span> <span class="s2">&quot;:&quot;</span><span class="p">;</span>
+<span class="nx">env</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">env</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nx">sep</span> <span class="o">+</span> <span class="s2">&quot;/home/titanium/bin&quot;</span><span class="p">;</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">env</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]);</span>
+</pre></div>
+
+
+<h2 id="events">Events</h2>
+<p>Many objects in Titanium can fire and handle events. Sometimes you
+may need to inercept all events after they've bubbled up to the
+top-level object. This is possible by installing an event handler
+on the Titanium object.</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;CustomEvent&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Top-level got &quot;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">.</span><span class="nx">type</span> <span class="o">+</span> <span class="s2">&quot; event!&quot;</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;CustomEvent&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Not only will <em>Titanium.API.addEventListener</em> listen for events
+fired with <em>Titanium.API.fireEvent</em>, but it will also listen for
+events originating from <em>all</em> Titanium objects (unless
+<em>preventDefault</em> or <em>stopPropagation</em> was called on that
+event).</p>

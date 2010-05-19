@@ -1,0 +1,112 @@
+<h1>Application</h1>
+<h2 id="useful_methods">Useful methods</h2>
+<p>The API module also contains information about the currently-running Titanium
+application, which may be retrieved via <tt>Titanium.API.getApplication</tt>.
+The <tt>Application</tt> object that is returned by this method has a multitude of
+<a href="href=" title="http://developer.appcelerator.com/apidoc/desktop/1.0/Titanium.API.Application.html">useful properties</a>.</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">application</span><span class="p">;</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">getDataPath</span><span class="p">());</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">getGUid</span><span class="p">());</span>
+</pre></div>
+
+
+<p>The App module also contains some very useful API points for dealing
+with the currently-running application. In particular you may wan to
+convert an <tt>app://</tt> URL into a path.</p>
+<div class="codehilite"><pre><span class="c1">// The two alerts should be the same.</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">appURLToPath</span><span class="p">(</span><span class="s2">&quot;app://images/kitten.png&quot;</span><span class="p">));</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">resourcesPath</span><span class="p">,</span>
+    <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;kitten.png&quot;</span><span class="p">));</span>
+</pre></div>
+
+
+<p>One of the main benefits of the App module though is that it can
+return values from the <tt>tiapp.xml</tt> file. This might be useful for
+displaying the application version to the user or presenting a link to
+your URL.</p>
+<div class="codehilite"><pre><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Welcome to &quot;</span> <span class="o">+</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="o">+</span> 
+    <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">getVersion</span><span class="p">());</span>
+</pre></div>
+
+
+<h2 id="application_properties">Application properties</h2>
+<p>Application properties provide a light-weight alternative to HTML5
+databases or the Titanium Database module. They come in two varieties:
+system properties and user properties. System properties are read-only
+properties that are defined via the <tt>tiapp.xml</tt> file, while user properties
+can be stored at any file path.</p>
+<h3 id="system_properties">System properties</h3>
+<p>In the KitchenSink <tt>tiapp.xml</tt>, the following properties are defined
+as children of the <code>&lt;ti:app&gt;</code> node:</p>
+<div class="codehilite"><pre><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;myString&quot;</span> <span class="na">type=</span><span class="s">&quot;string&quot;</span><span class="nt">&gt;</span>I am a String<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;myDouble&quot;</span> <span class="na">type=</span><span class="s">&quot;double&quot;</span><span class="nt">&gt;</span>1.23<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;myBool&quot;</span> <span class="na">type=</span><span class="s">&quot;boolean&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;myInt&quot;</span> <span class="na">type=</span><span class="s">&quot;int&quot;</span><span class="nt">&gt;</span>1<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;myList&quot;</span> <span class="na">type=</span><span class="s">&quot;list&quot;</span><span class="nt">&gt;</span>1,2,3<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;myDefaultString&quot;</span><span class="nt">&gt;</span>I am a default string<span class="nt">&lt;/property&gt;</span>
+</pre></div>
+
+
+<p>It is possible to access these properties by getting an instance of
+the system properties object:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">getSystemProperties</span><span class="p">();</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">properties</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s2">&quot;myString&quot;</span><span class="p">));</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">properties</span><span class="p">.</span><span class="nx">getInt</span><span class="p">(</span><span class="s2">&quot;myInt&quot;</span><span class="p">));</span>
+</pre></div>
+
+
+<p>System properties are read-only, because an application may not have write
+access to it's installation directory (where <tt>tiapp.xml</tt> resides). To
+store properties, it's recommended that you write a user properties file to the
+application data directory.</p>
+<h3 id="user_properties">User properties</h3>
+<p>User properties have the same interface as system properties, but can be stored
+in any file on the filesystem. Generally speaking, it's best to store these in
+in the application data directory, which is a per-user are to store application
+files. On Linux this is in <tt>~/.titanium/appdata/</tt>, on OS X,
+<tt>~/Library/Application Support/Titanium/appdata</tt> and on Windows in
+<tt>%appdata%/Titanium/appdata</tt>.</p>
+<p>Here is an example of reading and writing to a user properties file:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">dataPath</span><span class="p">,</span> <span class="s2">&quot;demo.properties&quot;</span><span class="p">);</span>
+
+<span class="c1">// Load the file if it exists.</span>
+<span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">exists</span><span class="p">())</span>
+    <span class="nx">properties</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">loadProperties</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+
+<span class="c1">// If the file doesn&#39;t exist, yet just create a new properties object.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">properties</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span>
+    <span class="nx">properties</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">createProperties</span><span class="p">({</span>
+        <span class="nx">val1</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">val2</span><span class="o">:</span> <span class="mf">1.1</span><span class="p">,</span>
+        <span class="nx">val3</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
+        <span class="nx">val4</span><span class="o">:</span> <span class="s2">&quot;123&quot;</span>
+    <span class="p">});</span>
+
+<span class="c1">// Update the properties object and save it.</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">properties</span><span class="p">.</span><span class="nx">getString</span><span class="p">(</span><span class="s1">&#39;val4&#39;</span><span class="p">));</span>
+<span class="nx">properties</span><span class="p">.</span><span class="nx">setString</span><span class="p">(</span><span class="s1">&#39;val4&#39;</span><span class="p">,</span> <span class="s1">&#39;321&#39;</span><span class="p">);</span>
+<span class="nx">properties</span><span class="p">.</span><span class="nx">saveTo</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+</pre></div>
+
+
+<h2 id="exiting_and_restarting">Exiting and restarting</h2>
+<p>It is possible to exit and restart your application. This is useful
+for creating a custom exit button. The application will also exit when
+the last top-level window closes. It is alos possible to prevent your
+application from exiting by listening for the <tt>EXIT</tt> event.
+One complication with this approach is that the <tt>EXIT</tt> event is
+fired after the last window closes, so you might need to recreate the
+main window. A better approach is to simply catch <tt>CLOSE</tt> events.</p>
+<div class="codehilite"><pre><span class="c1">// Exit KitchenSink</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">EXIT</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">confirm</span><span class="p">(</span><span class="s2">&quot;Are you sure you want to exit?&quot;</span><span class="p">))</span>
+        <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">});</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+
+<span class="c1">// Restart KitchenSink</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">restart</span><span class="p">();</span>
+</pre></div>

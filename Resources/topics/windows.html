@@ -1,0 +1,115 @@
+<h1>Windows</h1>
+<h2 id="the_current_window">The Current Window</h2>
+<p>All Titanium windows are 
+<a href="http://developer.appcelerator.com/apidoc/desktop/1.0/Titanium.UI.UserWindow">UI.UserWindow</a>
+objects. Code running in context of an HTML page can easily access the current window:</p>
+<div class="codehilite"><pre><span class="nx">alert</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">);</span>
+</pre></div>
+
+
+<p>From there it is easy to modify the window at will:</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setTitle</span><span class="p">(</span><span class="nx">prompt</span><span class="p">(</span><span class="s2">&quot;New window title:&quot;</span><span class="p">));</span>
+</pre></div>
+
+
+<p>All Titanium applications have an initial window, which can be set up
+in the <tt>tiapp.xml</tt> file (check out KitchenSink's <tt>tiapp.xml</tt>
+file or the <a href="http://developer.appcelerator.com/doc/desktop/tiapp.xml">guide</a>.
+Once a window has been opened, it can be closed once, freeing its resources
+and can never be opened again. If you'd just like to hide a window, try the following:</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+<span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+<span class="p">},</span> <span class="mi">3000</span><span class="p">);</span>
+</pre></div>
+
+
+<h2 id="modifying_windows">Modifying Windows</h2>
+<p>Most window properties can be changed:</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setFullscreen</span><span class="p">(</span>
+    <span class="o">!</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">isFullscreen</span><span class="p">());</span>
+
+<span class="kd">var</span> <span class="nx">newWidth</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">prompt</span><span class="p">(</span><span class="s2">&quot;New window width:&quot;</span><span class="p">));</span>
+
+<span class="c1">// Keep KitchenSink functional.</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">newWidth</span><span class="p">)</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">newWidth</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">)</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setWidth</span><span class="p">(</span><span class="nx">newWidth</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">newHeight</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">prompt</span><span class="p">(</span><span class="s2">&quot;New window height:&quot;</span><span class="p">));</span>
+
+<span class="c1">// Keep KitchenSink functional.</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">newHeight</span><span class="p">)</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">newHeight</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">)</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setHeight</span><span class="p">(</span><span class="nx">newHeight</span><span class="p">);</span>
+
+<span class="c1">// Modify the bounds of the window all at once</span>
+<span class="kd">var</span> <span class="nx">bounds</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">bounds</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Previous bounds: &quot;</span> <span class="o">+</span>
+    <span class="s2">&quot; x: &quot;</span> <span class="o">+</span> <span class="nx">bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span>
+    <span class="s2">&quot; y: &quot;</span> <span class="o">+</span> <span class="nx">bounds</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span>
+    <span class="s2">&quot; width: &quot;</span> <span class="o">+</span> <span class="nx">bounds</span><span class="p">.</span><span class="nx">width</span> <span class="o">+</span>
+    <span class="s2">&quot; height: &quot;</span> <span class="o">+</span> <span class="nx">bounds</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+
+<span class="nx">bounds</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="mi">900</span><span class="p">;</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setBounds</span><span class="p">(</span><span class="nx">bounds</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Some properties can only be changed before a window is originally open though.
+In particular, a window may only change its use of chrome before it is opened.</p>
+<div class="codehilite"><pre><span class="c1">// Should have no effect.</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setUsingChrome</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+
+<span class="c1">// This should work.</span>
+<span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createWindow</span><span class="p">(</span><span class="s2">&quot;app://new_window.html&quot;</span><span class="p">);</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">setUsingChrome</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">open</span><span class="p">();</span>
+</pre></div>
+
+
+<h2 id="transparent_windows">Transparent Windows</h2>
+<p>There are two types of transparency in Titanium. Full window transparency
+specified with the transparency property and background transparency specified
+with the transparent-background property.</p>
+<h3 id="the_transparency_setting">The Transparency Setting</h3>
+<p>The transparent element should contain a value between 0.0 and 1.0 and
+specifies the opacity of the total window. A window with a transparency
+value of 0.7 would look like:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createWindow</span><span class="p">({</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;app://new_window.html&quot;</span><span class="p">,</span>
+    <span class="nx">transparency</span><span class="o">:</span> <span class="mf">0.85</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">200</span>
+<span class="p">});</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">open</span><span class="p">();</span>
+</pre></div>
+
+
+<p>The transparency setting of a window can be modified after it has been
+opened. The following example will cause the new window to fade away when
+closed:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createWindow</span><span class="p">({</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;app://fading_window.html&quot;</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">200</span>
+<span class="p">});</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">open</span><span class="p">();</span>
+</pre></div>
+
+
+<h3 id="the_transparenct_background_setting">The Transparenct Background Setting</h3>
+<p>The transparent-background property specifies that the WebView in a
+window has a background which is transparent. Elements in the WebView
+may specify different opacities to create non-rectangular windows. Here is
+an example of a non-rectangular Titanium window with a
+transparent-background value of true:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createWindow</span><span class="p">({</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;app://new_window.html&quot;</span><span class="p">,</span>
+    <span class="nx">transparentBackground</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">200</span>
+<span class="p">});</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">open</span><span class="p">();</span>
+</pre></div>
+
+
+<p>Note that currently the transparent-background property disables all chrome
+and overrides the transparency property. The transparent-background property
+cannot be changed once a window is open.</p>

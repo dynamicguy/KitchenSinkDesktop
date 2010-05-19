@@ -1,0 +1,87 @@
+<h1>Database</h1>
+<h2 id="introduction">Introduction</h2>
+<p>There are two ways to use databases in Titanium: HTML 5 databases
+and the database API. In some cases you access the same database
+file with both APIs as well. Currently both APIs use SQLite backends.</p>
+<h2 id="opening_a_database">Opening a Database</h2>
+<p>There are two ways to open Titanim databases, <tt>Titanium.Database.open</tt>
+and <tt>Titanium.Database.openFile</tt>. <tt>open</tt> will create (if necessarY0
+and open a database in the same directory and schema as WebKit HTML 5 databases.
+Use this method if you'd like to use a single database with both APIs.</p>
+<div class="codehilite"><pre><span class="c1">// Create a WebKit-compatible database given, the database name.</span>
+<span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Database</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;mydatabase&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>You may also create a database using <tt>Titanium.Database.openFile</tt>
+which can be given a file path or <tt>Titanium.Filesystem.File</tt> object.
+If the database file does not exist, the method will create it and open it.</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Database</span><span class="p">.</span><span class="nx">openFile</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getApplicationDataDirectory</span><span class="p">(),</span> <span class="s1">&#39;mydatabase.db&#39;</span><span class="p">));</span>
+</pre></div>
+
+
+<p>Note: It's recommended that you store all data in the application data
+directory and not the application Resources or contents directory, as those
+may not be writeable.</p>
+<h2 id="simple_queries">Simple Queries</h2>
+<p>Once a database is open you may execute simple queries on it. For instance,
+to create a table:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Database</span><span class="p">.</span><span class="nx">openFile</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getApplicationDataDirectory</span><span class="p">(),</span> <span class="s1">&#39;mydatabase.db&#39;</span><span class="p">));</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE IF NOT EXISTS test(id INTEGER, name TEXT)&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Note: Be sure your query is SQLite-compatible! SQLite has different data
+types than MySQL, check them out <a href="http://www.sqlite.org/datatype3.html">here</a>.</p>
+<p>Find a way to detect databases that already exist.</p>
+<p>Inserting and retrieving data works in a very similar way:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Database</span><span class="p">.</span><span class="nx">openFile</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getApplicationDataDirectory</span><span class="p">(),</span> <span class="s1">&#39;mydatabase.db&#39;</span><span class="p">));</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE IF NOT EXISTS test(id INTEGER, name TEXT)&quot;</span><span class="p">);</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO test VALUES(123, &#39;a&#39;)&quot;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">resultSet</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM test&quot;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Found &quot;</span> <span class="o">+</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">rowCount</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; rows&quot;</span><span class="p">);</span>
+<span class="k">while</span> <span class="p">(</span><span class="nx">resultSet</span><span class="p">.</span><span class="nx">isValidRow</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">fieldCount</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="nx">text</span> <span class="o">+=</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">fieldName</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span>
+             <span class="o">+</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">;</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+    <span class="nx">resultSet</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="advanced_queries">Advanced Queries</h2>
+<p>You should never used unescaped input in SQL queries. In these situations
+Titanium provides a query template mechanism:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Database</span><span class="p">.</span><span class="nx">openFile</span><span class="p">(</span><span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getFile</span><span class="p">(</span>
+    <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Filesystem</span><span class="p">.</span><span class="nx">getApplicationDataDirectory</span><span class="p">(),</span> <span class="s1">&#39;mydatabase.db&#39;</span><span class="p">));</span>
+
+<span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&quot;Enter entry id&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">id</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&quot;Enter entry value&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">value</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">;</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE IF NOT EXISTS test(id INTEGER, name TEXT)&quot;</span><span class="p">);</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO test VALUES(?, ?)&quot;</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">resultSet</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM test&quot;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Found &quot;</span> <span class="o">+</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">rowCount</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; rows&quot;</span><span class="p">);</span>
+<span class="k">while</span> <span class="p">(</span><span class="nx">resultSet</span><span class="p">.</span><span class="nx">isValidRow</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">fieldCount</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="nx">text</span> <span class="o">+=</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">fieldName</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span>
+             <span class="o">+</span> <span class="nx">resultSet</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">;</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+    <span class="nx">resultSet</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>

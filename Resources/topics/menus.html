@@ -1,0 +1,161 @@
+<h1>Menus</h1>
+<h2 id="menu_structure">Menu Structure</h2>
+<p>Menus are composed of two different types of objects. <tt>Titanium.UI.Menu</tt>
+and <tt>Titanium.UI.MenuItem</tt>. A <tt>Menu</tt> is a container for
+<tt>MenuItem</tt>s, while <tt>MenuItems</tt>s represent a single menu entry.
+There are three types of menu items: normal menu items, check menu items and
+separator items. A check menu item is a stateful menu item that can either be
+on or off, while a separator item is a non-interactive item which simply inserts
+a separator line in the menu.</p>
+<p>Titanium menus and menu items are <em>live</em>, meaning that you can add them
+to any number of menus and use them in any number of places and all instances
+will update immediately. For instance, you may construct a menu object, set it
+on the current window and the tray item, and then update the first menu item.
+The menu item will immediately change on both the tray icon and the window.</p>
+<h2 id="simple_menus">Simple Menus</h2>
+<p>Here is some code which constructs a simple menu:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">createMenuItem</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createMenuItem</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">createMenu</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createMenu</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">makeItem</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="nx">createMenuItem</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Selected the &#39;&quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&#39; item&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">item</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">mainMenu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">createMenuItem</span><span class="p">(</span><span class="s2">&quot;Characters&quot;</span><span class="p">));</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">createMenuItem</span><span class="p">(</span><span class="s2">&quot;Plot Twists&quot;</span><span class="p">));</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">createMenuItem</span><span class="p">(</span><span class="s2">&quot;Endings&quot;</span><span class="p">));</span>
+
+<span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;George, the spy&quot;</span><span class="p">));</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Henriette, the scientist&quot;</span><span class="p">));</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Ferdinand, the politician&quot;</span><span class="p">));</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">getItemAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">setSubmenu</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Doublecross&quot;</span><span class="p">));</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Deux ex machina&quot;</span><span class="p">));</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Dinosaurs&quot;</span><span class="p">));</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">getItemAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">setSubmenu</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Sad&quot;</span><span class="p">));</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addSeparatorItem</span><span class="p">();</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Happy&quot;</span><span class="p">));</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">makeItem</span><span class="p">(</span><span class="s2">&quot;Surreal&quot;</span><span class="p">));</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">getItemAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">setSubmenu</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">menu</span> <span class="o">=</span> <span class="nx">mainMenu</span><span class="p">;</span>
+</pre></div>
+
+
+<p>A menu can also be cleared:</p>
+<div class="codehilite"><pre><span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">menu</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="items_with_icons">Items with Icons</h2>
+<p>It's pretty easy to create a menu item with an image. </p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">createMenuItem</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createMenuItem</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">createMenu</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createMenu</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">mainMenu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">createMenuItem</span><span class="p">(</span><span class="s2">&quot;Characters&quot;</span><span class="p">));</span>
+
+<span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">getItemAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">setSubmenu</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">imageItem</span> <span class="o">=</span> <span class="nx">createMenuItem</span><span class="p">(</span><span class="s2">&quot;Swap image&quot;</span><span class="p">,</span>
+    <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">imageItem</span><span class="p">.</span><span class="nx">getIcon</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;app://images/icon1.png&quot;</span><span class="p">)</span>
+            <span class="nx">imageItem</span><span class="p">.</span><span class="nx">setIcon</span><span class="p">(</span><span class="s2">&quot;app://images/icon2.png&quot;</span><span class="p">);</span>
+        <span class="k">else</span>
+            <span class="nx">imageItem</span><span class="p">.</span><span class="nx">setIcon</span><span class="p">(</span><span class="s2">&quot;app://images/icon1.png&quot;</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;app://images/icon1.png&quot;</span>
+<span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">imageItem</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another item&quot;</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another another item&quot;</span><span class="p">);</span>
+
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setMenu</span><span class="p">(</span><span class="nx">mainMenu</span><span class="p">);</span>
+</pre></div>
+
+
+<p>As you can see it's possible to set the menu image during construction
+of the menu item or to change it later via the <tt>setIcon</tt> method.</p>
+<h2 id="check_menu_items">Check Menu Items</h2>
+<p>Check menu items are stateful menu items which have
+distinct 'on' and 'off' states which toggle when the
+item is selected.</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">createMenu</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createMenu</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">mainMenu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Characters&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">getItemAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">setSubmenu</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">checkItem</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createCheckMenuItem</span><span class="p">(</span><span class="s2">&quot;Check state&quot;</span><span class="p">,</span>
+    <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Previous state of the item: &quot;</span> <span class="o">+</span> <span class="nx">checkItem</span><span class="p">.</span><span class="nx">getState</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">checkItem</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another item&quot;</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addSeparatorItem</span><span class="p">();</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another another item&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setMenu</span><span class="p">(</span><span class="nx">mainMenu</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Sometimes you need more advanced control over whether or not the
+check should change states. There are two ways to do this. The first
+is to use event handling:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">createMenu</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createMenu</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">mainMenu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Characters&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">getItemAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">setSubmenu</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">checkItem</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createCheckMenuItem</span><span class="p">(</span><span class="s2">&quot;Check state&quot;</span><span class="p">,</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">confirm</span><span class="p">(</span><span class="s2">&quot;Should the item change state?&quot;</span><span class="p">))</span>
+            <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">checkItem</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another item&quot;</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another another item&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setMenu</span><span class="p">(</span><span class="nx">mainMenu</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Another approach is to disable auto-checking on the item. The essentially
+means that you'll have to manage the state of the item yourself. This is
+also useful if you'd like to turn a series of check items into radio buttons.</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">createMenu</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createMenu</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">mainMenu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Characters&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nx">createMenu</span><span class="p">();</span>
+<span class="nx">mainMenu</span><span class="p">.</span><span class="nx">getItemAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">setSubmenu</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">checkItem</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">createCheckMenuItem</span><span class="p">(</span><span class="s2">&quot;Check state&quot;</span><span class="p">,</span>
+    <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">confirm</span><span class="p">(</span><span class="s2">&quot;Should the item change state?&quot;</span><span class="p">))</span>
+            <span class="nx">checkItem</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="o">!</span><span class="nx">checkItem</span><span class="p">.</span><span class="nx">getState</span><span class="p">())</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+<span class="nx">checkItem</span><span class="p">.</span><span class="nx">setAutoCheck</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">appendItem</span><span class="p">(</span><span class="nx">checkItem</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another item&quot;</span><span class="p">);</span>
+<span class="nx">menu</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="s2">&quot;Another another item&quot;</span><span class="p">);</span>
+<span class="nx">Titanium</span><span class="p">.</span><span class="nx">UI</span><span class="p">.</span><span class="nx">currentWindow</span><span class="p">.</span><span class="nx">setMenu</span><span class="p">(</span><span class="nx">mainMenu</span><span class="p">);</span>
+</pre></div>

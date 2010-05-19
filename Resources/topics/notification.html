@@ -1,0 +1,40 @@
+<h1>Notifications</h1>
+<h2 id="creating_notifications">Creating Notifications</h2>
+<p>Desktop notifications are provided by Growl on OS X, Snarl on Windows
+and libnotify on Linux. If a notification provider cannot be found,
+notifications will be shown with an HTML / CSS backup.</p>
+<p>A simple notification:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;I&#39;ve been clicked.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">notification</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Notification</span><span class="p">.</span><span class="nx">createNotification</span><span class="p">({</span>
+    <span class="s1">&#39;title&#39;</span><span class="o">:</span> <span class="s2">&quot;A nice notification&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;message&#39;</span><span class="o">:</span> <span class="s2">&quot;This notifications was brought to you by the letter &#39;N&#39;.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;timeout&#39;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;callback&#39;</span><span class="o">:</span> <span class="nx">cb</span>
+<span class="p">});</span>
+<span class="nx">notification</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+</pre></div>
+
+
+<p>Not all platforms support notification callback or specifying a custom
+timeout. You can also supply an icon with your notification:</p>
+<div class="codehilite"><pre><span class="kd">var</span> <span class="nx">cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;I&#39;ve been clicked.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">notification</span> <span class="o">=</span> <span class="nx">Titanium</span><span class="p">.</span><span class="nx">Notification</span><span class="p">.</span><span class="nx">createNotification</span><span class="p">({</span>
+    <span class="s1">&#39;title&#39;</span><span class="o">:</span> <span class="s2">&quot;A nice notification&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;message&#39;</span><span class="o">:</span> <span class="s2">&quot;This notifications was brought to you by the letter &#39;N&#39;.&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;timeout&#39;</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;callback&#39;</span><span class="o">:</span> <span class="nx">cb</span><span class="p">,</span>
+    <span class="s1">&#39;icon&#39;</span><span class="o">:</span> <span class="s1">&#39;app://images/icon2.png&#39;</span>
+<span class="p">});</span>
+<span class="nx">notification</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+</pre></div>
+
+
+<p>The icon supplied should be an absolute <tt>app://</tt>, <tt>ti://</tt> or <tt>file://</tt> URL.</p>
